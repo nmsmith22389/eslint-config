@@ -1,4 +1,4 @@
-import { Linter } from 'types/eslint';
+import { Linter } from '../index';
 
 import { BestPractices } from './best-practices';
 import { Deprecated } from './deprecated';

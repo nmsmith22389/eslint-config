@@ -1,4 +1,5 @@
-import type { Linter, ESLintRules as Rules } from 'types/eslint';
+// eslint-disable-next-line import/no-relative-parent-imports
+import type { Linter, ESLintRules as Rules } from '../types/eslint';
 // /* eslint-disable @typescript-eslint/ban-ts-ignore */
 // //@ts-ignore
 // import { Linter as LinterCtor } from './node_modules/eslint';
@@ -12,7 +13,7 @@ import type { Linter, ESLintRules as Rules } from 'types/eslint';
 //     allRulesOff[key] = 'off';
 // });
 
-export = {
+const config: Linter.Config<Rules> = {
     // root: true,
     env: {
         browser: true,
@@ -70,4 +71,6 @@ export = {
         },
     ],
     reportUnusedDisableDirectives: true,
-} as Linter.Config<Rules>;
+};
+
+export = config;

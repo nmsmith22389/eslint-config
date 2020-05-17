@@ -1,5 +1,6 @@
-import type { Linter } from 'types/eslint';
-import type { TypescriptRules as Rules } from 'types/typescript';
+/* eslint-disable import/no-relative-parent-imports */
+import type { Linter } from '../../types/eslint';
+import type { TypescriptRules as Rules } from '../../types/typescript';
 
 export = {
     rules: {

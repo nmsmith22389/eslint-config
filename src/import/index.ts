@@ -1,5 +1,6 @@
-import type { Linter } from 'types/eslint';
-import type { ImportRules as Rules } from 'types/import';
+/* eslint-disable import/no-relative-parent-imports */
+import type { Linter } from '../../types/eslint';
+import type { ImportRules as Rules } from '../../types/import';
 
 const allExtensions = ['.ts', '.tsx', '.d.ts', '.js', '.jsx'];
 

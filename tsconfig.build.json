@@ -4,8 +4,9 @@
         "outDir": "./dist",
         "baseUrl": "./",
         "rootDirs": ["./src", "./types"],
-        "resolveJsonModule": true
+        "resolveJsonModule": true,
+        "removeComments": true,
     },
     "include": ["./src", "./types"],
-    "exclude": ["./types/old"]
+    "exclude": ["./types/old", "./dist"]
 }
