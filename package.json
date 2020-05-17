@@ -3,7 +3,6 @@
     "description": "The eslint standard for nmsmith22389.",
     "version": "1.0.0",
     "main": "dist/index.js",
-    "private": true,
     "license": "MIT",
     "author": "nmsmith89 <nmsmith22389@gmail.com>",
     "homepage": "https://github.com/nmsmith22389/eslint-config#readme",
