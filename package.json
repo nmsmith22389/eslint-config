@@ -19,11 +19,12 @@
         "types"
     ],
     "scripts": {
-        "build": "ts-node-script scripts/build.ts",
-        "build-old": "tsc -b tsconfig.build.json",
-        "clean": "tsc -b tsconfig.build.json --clean",
+        "prepare": "npm run clean; npm run build",
+        "build-old": "ts-node-script scripts/build.ts",
+        "build": "tsc -b tsconfig.build.json",
+        "clean": "rm -r ./dist",
         "format": "prettier --write \"./**/*.{ts,js,json,md}\" --ignore-path ../../.prettierignore",
-        "get-config": "ts-node-script -O '{\"noResolve\": false}' scripts/get-config.ts",
+        "get-config": "ts-node-script scripts/get-config.ts",
         "lint": "eslint . --ext .js,.ts",
         "typecheck": "tsc -p tsconfig.json --noEmit"
     },
