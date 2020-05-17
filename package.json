@@ -1,5 +1,5 @@
 {
-    "name": "@nmsmith22389/eslint-config",
+    "name": "@nmsmith/eslint-config",
     "description": "The eslint standard for nmsmith22389.",
     "version": "1.0.0",
     "main": "dist/index.js",
