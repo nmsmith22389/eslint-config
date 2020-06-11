@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.2](https://github.com/nmsmith22389/eslint-config/compare/v1.0.1...v1.0.2) (2020-06-11)
+
+
+### Bug Fixes
+
+* **standard-version:** add standard-version config to `package.json` ([82d7851](https://github.com/nmsmith22389/eslint-config/commit/82d7851365bc50eb36e71e520ee78f08d5cf1999))
+
 ### 1.0.1 (2020-06-11)
 
 
