@@ -36,7 +36,6 @@
     },
     "standard-version": {
         "skip": {
-            "tag": true
         }
     },
     "dependencies": {
