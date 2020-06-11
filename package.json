@@ -4,7 +4,10 @@
     "version": "1.0.1",
     "main": "dist/index.js",
     "license": "MIT",
-    "author": "nmsmith89 <nmsmith22389@gmail.com>",
+    "author": {
+        "name": "Neil Smith",
+        "email": "nmsmith22389@gmail.com"
+    },
     "homepage": "https://github.com/nmsmith22389/eslint-config#readme",
     "bugs": {
         "url": "https://github.com/nmsmith22389/eslint-config/issues"
