@@ -12,7 +12,7 @@ export = {
         '@typescript-eslint/explicit-function-return-type': 'warn',
         // '@typescript-eslint/no-explicit-any': ['warn', { fixToUnknown: true }],
         '@typescript-eslint/no-explicit-any': ['off', { fixToUnknown: true }],
-        '@typescript-eslint/no-unnecessary-condition': ['error', { ignoreRhs: true }],
+        '@typescript-eslint/no-unnecessary-condition': 'error',
         '@typescript-eslint/no-unused-vars': [
             'warn',
             {
