@@ -26,7 +26,10 @@
         "format": "prettier --write \"./**/*.{ts,js,json,md}\" --ignore-path ../../.prettierignore",
         "get-config": "ts-node-script scripts/get-config.ts",
         "lint": "eslint . --ext .js,.ts",
-        "typecheck": "tsc -p tsconfig.json --noEmit"
+        "typecheck": "tsc -p tsconfig.json --noEmit",
+        "bump-version": "standard-version --message='build(release): %s'",
+        "bump-version-minor": "standard-version --release-as=minor --message='build(release): %s'",
+        "bump-version-major": "standard-version --release-as=major --message='build(release): %s'"
     },
     "dependencies": {
         "@typescript-eslint/eslint-plugin": "^3.2.0",
@@ -44,6 +47,7 @@
         "cross-env": "^7.0.2",
         "eslint": "^7.2.0",
         "json-schema": "^0.2.5",
+        "standard-version": "^8.0.0",
         "ts-node": "^8.10.2",
         "typescript": "^3.9.5",
         "vscode": "^1.1.37"
