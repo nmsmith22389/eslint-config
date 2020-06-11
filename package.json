@@ -1,10 +1,13 @@
 {
     "name": "@nmsmith22389/eslint-config",
     "description": "The eslint standard for nmsmith22389.",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "main": "dist/index.js",
     "license": "MIT",
-    "author": "nmsmith89 <nmsmith22389@gmail.com>",
+    "author": {
+        "name": "Neil Smith",
+        "email": "nmsmith22389@gmail.com"
+    },
     "homepage": "https://github.com/nmsmith22389/eslint-config#readme",
     "bugs": {
         "url": "https://github.com/nmsmith22389/eslint-config/issues"
@@ -30,6 +33,9 @@
         "bump-version": "standard-version --message='build(release): %s'",
         "bump-version-minor": "standard-version --release-as=minor --message='build(release): %s'",
         "bump-version-major": "standard-version --release-as=major --message='build(release): %s'"
+    },
+    "standard-version": {
+        "skip": {}
     },
     "dependencies": {
         "@typescript-eslint/eslint-plugin": "^3.2.0",
