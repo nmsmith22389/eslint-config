@@ -1,8 +1,8 @@
 {
     "compilerOptions": {
         "allowSyntheticDefaultImports": true,
-        "declaration": true,
-        "declarationMap": true,
+        // "declaration": true,
+        // "declarationMap": true,
         "esModuleInterop": true,
         "lib": ["es2017"],
         "module": "commonjs",

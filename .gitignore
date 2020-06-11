@@ -89,5 +89,7 @@ typings/
 
 # Build Folders & Files
 dist/
+./eslint/
 
-eslint/
+# System Files
+.DS_Store
