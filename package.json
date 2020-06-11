@@ -1,7 +1,7 @@
 {
     "name": "@nmsmith22389/eslint-config",
     "description": "The eslint standard for nmsmith22389.",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "main": "dist/index.js",
     "license": "MIT",
     "author": "nmsmith89 <nmsmith22389@gmail.com>",
