@@ -3,6 +3,18 @@ import type { Linter } from '../../types/eslint';
 import type { TypescriptRules as Rules } from '../../types/typescript';
 
 export = {
+    parserOptions: {
+        parser: '@typescript-eslint/parser',
+        project: './tsconfig.eslint.json',
+        ecmaVersion: 2018, // Allows for the parsing of modern ECMAScript features
+        sourceType: 'module',
+    },
+    extends: [
+        'plugin:@typescript-eslint/eslint-recommended',
+        'plugin:@typescript-eslint/recommended',
+        'plugin:@typescript-eslint/recommended-requiring-type-checking',
+        'prettier/@typescript-eslint',
+    ],
     rules: {
         'no-unused-vars': 'off',
 
@@ -117,5 +129,4 @@ export = {
         },
     ],
     plugins: ['@typescript-eslint'],
-    settings: {},
 } as Linter.Config<Rules>;

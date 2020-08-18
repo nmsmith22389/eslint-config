@@ -18,7 +18,7 @@ const run = async (cmd: string): Promise<ExecParams> =>
 
 console.log(chalk`{yellow Building...}`);
 
-run(`tsc -b ${configFile}`).then(() => {
+void run(`tsc -b ${configFile}`).then(() => {
     console.log(chalk`{green.bold Compilation Complete!}`);
 });
 
