@@ -1,7 +1,7 @@
 {
     "name": "@smith-web-design/eslint-config",
     "description": "The eslint standard for nmsmith22389.",
-    "version": "2.0.2",
+    "version": "2.0.3",
     "main": "dist/index.js",
     "license": "MIT",
     "author": {
