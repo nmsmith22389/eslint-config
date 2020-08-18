@@ -13,7 +13,7 @@
  * @type {Config<ESLintRules & ImportRules & TypescriptRules>}
  */
 const config = {
-    extends: ['./dist'],
+    extends: ['./dist', './dist/typescript', './dist/import'],
     rules: {},
 };
 

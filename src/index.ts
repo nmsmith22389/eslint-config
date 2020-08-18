@@ -20,28 +20,25 @@ const config: Linter.Config<Rules> = {
         node: true,
     },
     parserOptions: {
-        parser: '@typescript-eslint/parser',
-        extraFileExtensions: ['.vue'],
-        project: './tsconfig.eslint.json',
-        ecmaVersion: 2018, // Allows for the parsing of modern ECMAScript features
+        // extraFileExtensions: ['.vue'],
+        // ecmaVersion: 2018, // Allows for the parsing of modern ECMAScript features
         sourceType: 'module',
     },
     extends: [
         // '@nuxtjs/eslint-config-typescript',
         'eslint:recommended',
-        'plugin:@typescript-eslint/eslint-recommended',
-        'plugin:@typescript-eslint/recommended',
-        'plugin:@typescript-eslint/recommended-requiring-type-checking',
-        'plugin:vue/recommended',
+        // 'plugin:vue/recommended',
         // 'plugin:vue-types/strongly-recommended',
         'plugin:prettier/recommended',
         'prettier',
-        'prettier/vue',
-        'prettier/@typescript-eslint',
-        './import',
-        './typescript',
+        // 'prettier/vue',
+        // './import',
+        // './typescript',
     ],
-    plugins: ['prettier', 'vue'],
+    plugins: [
+        'prettier',
+        // 'vue'
+    ],
     rules: {
         'new-cap': 'off',
         'spaced-comment': 'off',
