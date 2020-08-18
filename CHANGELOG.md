@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0](https://github.com/nmsmith22389/eslint-config/compare/v1.0.2...v2.0.0) (2020-08-18)
+
+
+### ⚠ BREAKING CHANGES
+
+* The typescript and import configs now have to be imported separately from the main config.
+
+* separate typescript and import from main file ([a8177a4](https://github.com/nmsmith22389/eslint-config/commit/a8177a43a9ff02c7e9f2aed926d17186ff444e0a))
+
 ### [1.0.2](https://github.com/nmsmith22389/eslint-config/compare/v1.0.1...v1.0.2) (2020-06-11)
 
 
