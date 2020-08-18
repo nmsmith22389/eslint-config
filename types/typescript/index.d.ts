@@ -9,14 +9,17 @@ import { Options as ConsistentTypeAssertionsOptions } from './Options/Consistent
 import { Options as ConsistentTypeDefinitionsOptions } from './Options/ConsistentTypeDefinitions';
 import { Options as ExplicitFunctionReturnTypeOptions } from './Options/ExplicitFunctionReturnType';
 
+// eslint-disable-next-line import/order
 import RuleEntry = Linter.RuleEntry;
+// eslint-disable-next-line import/order
+import RulesRecord = Linter.RulesRecord;
+
 // const a: Partial<TypescriptRules> = {
 //     '@typescript-eslint/brace-style': ['error', "allman", {allowSingleLine:}],
 // };
 
 // TODO: Move each rule into its own file (w/ options) so that each file has its own .md docs.
-
-export interface TypescriptRules extends Linter.RulesRecord {
+export interface TypescriptRules extends RulesRecord {
     /**
      * # Require that member overloads be consecutive (adjacent-overload-signatures)
      *
