@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.5](https://github.com/nmsmith22389/eslint-config/compare/v2.0.4...v2.0.5) (2020-08-22)
+
+
+### Bug Fixes
+
+* **typescript:** update typescript rules for `[@typescript-eslint](https://github.com/typescript-eslint)` ([203b626](https://github.com/nmsmith22389/eslint-config/commit/203b6264fe796ef2ff712b74233c132b08677d08))
+
 ### [2.0.4](https://github.com/nmsmith22389/eslint-config/compare/v2.0.3...v2.0.4) (2020-08-18)
 
 ### [2.0.3](https://github.com/nmsmith22389/eslint-config/compare/v2.0.2...v2.0.3) (2020-08-18)
