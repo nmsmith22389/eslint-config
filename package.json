@@ -1,7 +1,7 @@
 {
     "name": "@smith-web-design/eslint-config",
     "description": "The eslint standard for Smith Web Design.",
-    "version": "2.0.4",
+    "version": "2.0.5",
     "keywords": [
         "Smith Web Design",
         "eslint",
