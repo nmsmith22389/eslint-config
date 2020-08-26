@@ -9,9 +9,7 @@ import { Options as ConsistentTypeAssertionsOptions } from './Options/Consistent
 import { Options as ConsistentTypeDefinitionsOptions } from './Options/ConsistentTypeDefinitions';
 import { Options as ExplicitFunctionReturnTypeOptions } from './Options/ExplicitFunctionReturnType';
 
-// eslint-disable-next-line import/order
 import RuleEntry = Linter.RuleEntry;
-// eslint-disable-next-line import/order
 import RulesRecord = Linter.RulesRecord;
 
 // const a: Partial<TypescriptRules> = {
