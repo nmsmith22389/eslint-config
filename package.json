@@ -1,7 +1,7 @@
 {
     "name": "@smith-web-design/eslint-config",
     "description": "The eslint standard for Smith Web Design.",
-    "version": "2.0.5",
+    "version": "2.0.6",
     "keywords": [
         "Smith Web Design",
         "eslint",
@@ -27,12 +27,10 @@
         "types"
     ],
     "scripts": {
-        "prepare": "npm run clean; npm run build",
-        "build-old": "ts-node-script scripts/build.ts",
+        "prepublishOnly": "npm run clean; npm run build",
         "build": "tsc -b tsconfig.build.json",
         "clean": "rm -r ./dist",
         "format": "prettier --write \"./**/*.{ts,js,json,md}\" --ignore-path ../../.prettierignore",
-        "get-config": "ts-node-script scripts/get-config.ts",
         "lint": "eslint . --ext .js,.ts",
         "typecheck": "tsc -p tsconfig.json --noEmit",
         "bump-version": "standard-version --message='build(release): %s'",
@@ -44,13 +42,13 @@
     },
     "dependencies": {
         "@types/estree": "0.0.45",
-        "@typescript-eslint/eslint-plugin": "^3.9.1",
-        "@typescript-eslint/parser": "^3.9.1",
+        "@typescript-eslint/eslint-plugin": "^3.10.1",
+        "@typescript-eslint/parser": "^3.10.1",
         "eslint-config-prettier": "^6.11.0",
         "eslint-plugin-import": "^2.22.0",
         "eslint-plugin-prettier": "^3.1.4",
         "json-schema": "^0.2.5",
-        "prettier": "^2.0.5"
+        "prettier": "^2.1.0"
     },
     "devDependencies": {
         "@types/node": "^14.6.0",
@@ -58,8 +56,8 @@
         "cross-env": "^7.0.2",
         "eslint": "^7.7.0",
         "standard-version": "^9.0.0",
-        "ts-node": "^8.10.2",
-        "typescript": "^3.9.7"
+        "ts-node": "^9.0.0",
+        "typescript": "^4.0.2"
     },
     "peerDependencies": {
         "eslint": "^7.1.0"

@@ -2,7 +2,7 @@
 import type { Linter } from '../../types/eslint';
 import type { TypescriptRules as Rules } from '../../types/typescript';
 
-export = {
+const config: Linter.Config<Rules> = {
     parserOptions: {
         parser: '@typescript-eslint/parser',
         // project: './tsconfig.eslint.json',
@@ -157,4 +157,6 @@ export = {
         },
     ],
     plugins: ['@typescript-eslint'],
-} as Linter.Config<Rules>;
+};
+
+export = config;

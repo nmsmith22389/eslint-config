@@ -14,6 +14,9 @@
  */
 const config = {
     extends: ['./dist', './dist/typescript', './dist/import'],
+    parserOptions: {
+        project: './tsconfig.eslint.json',
+    },
     rules: {},
 };
 
