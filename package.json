@@ -42,19 +42,19 @@
     },
     "dependencies": {
         "@types/estree": "0.0.45",
-        "@typescript-eslint/eslint-plugin": "^3.10.1",
-        "@typescript-eslint/parser": "^3.10.1",
+        "@typescript-eslint/eslint-plugin": "^4.1.0",
+        "@typescript-eslint/parser": "^4.1.0",
         "eslint-config-prettier": "^6.11.0",
         "eslint-plugin-import": "^2.22.0",
         "eslint-plugin-prettier": "^3.1.4",
         "json-schema": "^0.2.5",
-        "prettier": "^2.1.0"
+        "prettier": "^2.1.1"
     },
     "devDependencies": {
-        "@types/node": "^14.6.0",
-        "acorn": "^7.4.0",
+        "@types/node": "^14.6.4",
+        "acorn": "^8.0.1",
         "cross-env": "^7.0.2",
-        "eslint": "^7.7.0",
+        "eslint": "^7.8.1",
         "standard-version": "^9.0.0",
         "ts-node": "^9.0.0",
         "typescript": "^4.0.2"
