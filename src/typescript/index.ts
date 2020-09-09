@@ -28,6 +28,7 @@ const config: Linter.Config<Rules> = {
         '@typescript-eslint/no-unused-vars': [
             'warn',
             {
+                varsIgnorePattern: '^_',
                 args: 'all',
                 argsIgnorePattern: '^_',
             },
