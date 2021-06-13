@@ -802,7 +802,14 @@ export interface BestPractices extends Linter.RulesRecord {
      * @since 0.8.0
      * @see https://eslint.org/docs/rules/no-void
      */
-    'no-void': Linter.RuleEntry<[]>;
+    'no-void': Linter.RuleEntry<[
+        {
+            /**
+             * @default false
+             */
+            allowAsStatement: boolean,
+        }
+    ]>;
 
     /**
      * Rule to disallow specified warning terms in comments.
