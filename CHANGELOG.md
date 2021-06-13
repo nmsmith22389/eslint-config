@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.8](https://github.com/nmsmith22389/eslint-config/compare/v2.0.7...v2.0.8) (2021-06-13)
+
+
+### Bug Fixes
+
+* fix errant import ([8170cef](https://github.com/nmsmith22389/eslint-config/commit/8170cef22da4cb3ae9875b759229089de67fba49))
+
 ### [2.0.7](https://github.com/nmsmith22389/eslint-config/compare/v2.0.6...v2.0.7) (2021-06-13)
 
 
