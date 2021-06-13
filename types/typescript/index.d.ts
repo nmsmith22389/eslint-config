@@ -1,12 +1,13 @@
 import { Linter } from 'types/eslint';
 // import { ESLintRules } from 'eslint/rules/index';
 import { Options as ArrayTypeOptions } from './Options/ArrayType';
+import { Options as BanTsCommentOptions } from './Options/BanTsComment';
 import { Options as BanTypesOptions } from './Options/BanTypes';
 import { Options as BraceStyleOptions } from './Options/BraceStyle';
-import { Options as CamelcaseOptions } from './Options/Camelcase';
-import { Options as ClassNameCasingOptions } from './Options/ClassNameCasing';
+import { Options as ClassLiteralPropertyStyleOptions } from './Options/ClassLiteralPropertyStyle';
 import { Options as ConsistentTypeAssertionsOptions } from './Options/ConsistentTypeAssertions';
 import { Options as ConsistentTypeDefinitionsOptions } from './Options/ConsistentTypeDefinitions';
+import { Options as ConsistentTypeImportsOptions } from './Options/ConsistentTypeImports';
 import { Options as ExplicitFunctionReturnTypeOptions } from './Options/ExplicitFunctionReturnType';
 
 import RuleEntry = Linter.RuleEntry;
@@ -257,22 +258,57 @@ export interface TypescriptRules extends RulesRecord {
     '@typescript-eslint/await-thenable': RuleEntry;
 
     /**
-     * # Bans "// @ts-ignore" comments from being used (ban-ts-ignore)
+     * # Bans `// @ts-<directive>` comments from being used or requires descriptions after directive (`ban-ts-comment`)
      *
-     * Suppressing Typescript Compiler Errors can be hard to discover.
+     * TypeScript provides several directive comments that can be used to alter how it processes files.
+     * Using these to suppress TypeScript Compiler Errors reduces the effectiveness of TypeScript overall.
+     *
+     * The directive comments supported by TypeScript are:
+     *
+     * ```ts
+     *  // @ts-expect-error
+     *  // @ts-ignore
+     *  // @ts-nocheck
+     *  // @ts-check
+     * ```
      * ___
      * ## Rule Details
      *
      * - ✔️ Recommended
      *
-     * Does not allow the use of `// @ts-ignore` comments.
+     * This rule lets you set which directive comments you want to allow in your codebase.
+     * By default, only `@ts-check` is allowed, as it enables rather than suppresses errors.
      *
-     * The following patterns are considered warnings:
+     * The configuration looks like this:
+     *
+     * ```ts
+     *  interface Options {
+     *      'ts-expect-error'?: boolean | 'allow-with-description';
+     *      'ts-ignore'?: boolean | 'allow-with-description';
+     *      'ts-nocheck'?: boolean | 'allow-with-description';
+     *      'ts-check'?: boolean | 'allow-with-description';
+     *      minimumDescriptionLength?: number;
+     *  }
+     *
+     *  const defaultOptions: Options = {
+     *      'ts-expect-error': 'allow-with-description',
+     *      'ts-ignore': true,
+     *      'ts-nocheck': true,
+     *      'ts-check': false,
+     *      minimumDescriptionLength: 3,
+     *  };
+     * ```
+     *
+     * ### `ts-expect-error`, `ts-ignore`, `ts-nocheck`, `ts-check` directives
+     *
+     * A value of `true` for a particular directive means that this rule will report if it finds any usage of said directive.
+     *
+     * For example, with the defaults above the following patterns are considered warnings:
      *
      * ```ts
      *  if (false) {
-     *    // @ts-ignore: Unreachable code error
-     *    console.log('hello');
+     *      // @ts-ignore: Unreachable code error
+     *      console.log('hello');
      *  }
      * ```
      *
@@ -280,24 +316,108 @@ export interface TypescriptRules extends RulesRecord {
      *
      * ```ts
      *  if (false) {
-     *    // Compiler warns about unreachable code error
-     *    console.log('hello');
+     *      // Compiler warns about unreachable code error
+     *      console.log('hello');
      *  }
      * ```
+     *
+     * ### `allow-with-description`
+     *
+     * A value of `'allow-with-description'` for a particular directive means that this rule will report if it finds a directive that does not have a description following the directive (on the same line).
+     *
+     * For example, with `{ 'ts-expect-error': 'allow-with-description' }` the following pattern is considered a warning:
+     *
+     * ```ts
+     *  if (false) {
+     *      // @ts-expect-error
+     *      console.log('hello');
+     *  }
+     * ```
+     *
+     * The following pattern is not a warning:
+     *
+     * ```ts
+     *  if (false) {
+     *      // @ts-expect-error: Unreachable code error
+     *      console.log('hello');
+     *  }
+     * ```
+     *
+     * ### `minimumDescriptionLength`
+     *
+     * Use `minimumDescriptionLength` to set a minimum length for descriptions when using the `allow-with-description` option for a directive.
+     *
+     * For example, with `{ 'ts-expect-error': 'allow-with-description', minimumDescriptionLength: 10 }` the following pattern is considered a warning:
+     *
+     * ```ts
+     *  if (false) {
+     *      // @ts-expect-error: TODO
+     *      console.log('hello');
+     *  }
+     * ```
+     *
+     * The following pattern is not a warning:
+     *
+     * ```ts
+     *  if (false) {
+     *      // @ts-expect-error The rationale for this override is described in issue #1337 on GitLab
+     *      console.log('hello');
+     *  }
+     * ```
+     *
      * ___
      * ## When Not To Use It
      *
-     * If you are sure, compiler errors won't affect functionality and you need to disable them.
+     * If you want to use all of the TypeScript directives.
+     *
      * ___
      * ## Further Reading
      *
      * - TypeScript [Type Checking JavaScript Files](https://www.typescriptlang.org/docs/handbook/type-checking-javascript-files.html)
+     *
      * ___
      * ## Compatibility
      *
      * - TSLint: [ban-ts-ignore](https://palantir.github.io/tslint/rules/ban-ts-ignore/)
      */
-    '@typescript-eslint/ban-ts-ignore': RuleEntry;
+    '@typescript-eslint/ban-ts-comment': RuleEntry<BanTsCommentOptions>;
+
+    /**
+     * # Bans `// tslint:<rule-flag>` comments from being used (`ban-tslint-comment`)
+     *
+     * Useful when migrating from TSLint to ESLint. Once TSLint has been removed, this rule helps locate TSLint annotations (e.g. `// tslint:disable`).
+     *
+     * ___
+     * ## Rule Details
+     *
+     * - 🔧 Fixable
+     *
+     * Examples of **incorrect** code for this rule:
+     *
+     * All TSLint [rule flags](https://palantir.github.io/tslint/usage/rule-flags/)
+     *
+     * ```js
+     *  /.* tslint:disable *./
+     *  /.* tslint:enable *./
+     *  /.* tslint:disable:rule1 rule2 rule3... *./
+     *  /.* tslint:enable:rule1 rule2 rule3... *./
+     *  // tslint:disable-next-line
+     *  someCode(); // tslint:disable-line
+     *  // tslint:disable-next-line:rule1 rule2 rule3...
+     * ```
+     *
+     * Examples of **correct** code for this rule:
+     *
+     * ```js
+     *  // This is a comment that just happens to mention tslint
+     * ```
+     *
+     * ___
+     * ## When Not To Use It
+     *
+     * If you are still using TSLint.
+     */
+    '@typescript-eslint/ban-tslint-comment': RuleEntry;
 
     /**
      * # Bans specific types from being used (ban-types)
@@ -412,376 +532,108 @@ export interface TypescriptRules extends RulesRecord {
     '@typescript-eslint/brace-style': RuleEntry<BraceStyleOptions>;
 
     /**
-     * # Enforce camelCase naming convention (camelcase)
+     * # Ensures that literals on classes are exposed in a consistent style (`class-literal-property-style`)
      *
-     * When it comes to naming variables, style guides generally fall into one of two
-     * camps: camelcase (`variableName`) and underscores (`variable_name`). This rule
-     * focuses on using the camelcase approach. If your style guide calls for
-     * camelCasing your variable names, then this rule is for you!
+     * When writing TypeScript applications, it's typically safe to store literal values on classes using fields with the `readonly` modifier to prevent them from being reassigned.
+     * When writing TypeScript libraries that could be used by JavaScript users however, it's typically safer to expose these literals using `getter`s, since the `readonly` modifier is enforced at compile type.
      *
-     * ___
+     * ---
      * ## Rule Details
      *
-     * - ✔️ Recommended
+     * - 🔧 Fixable
      *
-     * This rule looks for any underscores (`_`) located within the source code.
-     * It ignores leading and trailing underscores and only checks those in the middle
-     * of a variable name. If ESLint decides that the variable is a constant
-     * (all uppercase), then no warning will be thrown. Otherwise, a warning will be
-     * thrown. This rule only flags definitions and assignments but not function calls.
-     * In case of ES6 `import` statements, this rule only targets the name of the
-     * variable that will be imported into the local module scope.
+     * This rule aims to ensure that literals exposed by classes are done so consistently, in one of the two style described above.
+     * By default this rule prefers the `fields` style as it means JS doesn't have to setup & teardown a function closure.
      *
-     * **_This rule was taken from the ESLint core rule `camelcase`._**
-     * **_Available options and test cases may vary depending on the version of ESLint installed in the system._**
+     * Note that this rule only checks for constant _literal_ values (string, template string, number, bigint, boolean, regexp, null). It does not check objects or arrays, because a readonly field behaves differently to a getter in those cases. It also does not check functions, as it is a common pattern to use readonly fields with arrow function values as auto-bound methods.
+     * This is because these types can be mutated and carry with them more complex implications about their usage.
      *
-     * ___
-     * ## Options
+     * ### The `fields` style
      *
-     * ```json
-     *   {
-     *     // note you must disable the base rule as it can report incorrect errors
-     *     "camelcase": "off",
-     *     "@typescript-eslint/camelcase": ["error", { "properties": "always" }]
-     *   }
+     * This style checks for any getter methods that return literal values, and requires them to be defined using fields with the `readonly` modifier instead.
+     *
+     * Examples of **correct** code with the `fields` style:
+     *
+     * ```ts
+     *  /.* eslint @typescript-eslint/class-literal-property-style: ["error", "fields"] *./
+     *
+     *  class Mx {
+     *      public readonly myField1 = 1;
+     *
+     *      // not a literal
+     *      public readonly myField2 = [1, 2, 3];
+     *
+     *      private readonly ['myField3'] = 'hello world';
+     *
+     *      public get myField4() {
+     *          return `hello from ${window.location.href}`;
+     *      }
+     *  }
      * ```
      *
-     * This rule has an object option:
+     * Examples of **incorrect** code with the `fields` style:
      *
-     * - `"properties": "never"` (default) does not check property names
-     * - `"properties": "always"` enforces camelcase style for property names
-     * - `"genericType": "never"` (default) does not check generic identifiers
-     * - `"genericType": "always"` enforces camelcase style for generic identifiers
-     * - `"ignoreDestructuring": false` (default) enforces camelcase style for destructured identifiers
-     * - `"ignoreDestructuring": true` does not check destructured identifiers
-     * - `allow` (`string[]`) list of properties to accept. Accept regex.
+     * ```ts
+     *  /.* eslint @typescript-eslint/class-literal-property-style: ["error", "fields"] *./
      *
-     * ### properties: "always"
+     *  class Mx {
+     *      public static get myField1() {
+     *          return 1;
+     *      }
      *
-     * Examples of **incorrect** code for this rule with the default `{ "properties": "always" }` option:
-     *
-     * ```js
-     *   // eslint @typescript-eslint/camelcase: "error"
-     *
-     *   import { no_camelcased } from 'external-module';
-     *
-     *   var my_favorite_color = '#112C85';
-     *
-     *   function do_something() {
-     *     // ...
-     *   }
-     *
-     *   obj.do_something = function() {
-     *     // ...
-     *   };
-     *
-     *   function foo({ no_camelcased }) {
-     *     // ...
-     *   }
-     *
-     *   function foo({ isCamelcased: no_camelcased }) {
-     *     // ...
-     *   }
-     *
-     *   function foo({ no_camelcased = 'default value' }) {
-     *     // ...
-     *   }
-     *
-     *   var obj = {
-     *     my_pref: 1,
-     *   };
-     *
-     *   var { category_id = 1 } = query;
-     *
-     *   var { foo: no_camelcased } = bar;
-     *
-     *   var { foo: bar_baz = 1 } = quz;
+     *      private get ['myField2']() {
+     *          return 'hello world';
+     *      }
+     *  }
      * ```
      *
-     * Examples of **correct** code for this rule with the default `{ "properties": "always" }` option:
+     * ### The `getters` style
      *
-     * ```js
-     *   // eslint @typescript-eslint/camelcase: "error"
+     * This style checks for any `readonly` fields that are assigned literal values, and requires them to be defined as getters instead.
+     * This style pairs well with the [`@typescript-eslint/prefer-readonly`](prefer-readonly.md) rule,
+     * as it will identify fields that can be `readonly`, and thus should be made into getters.
      *
-     *   import { no_camelcased as camelCased } from 'external-module';
+     * Examples of **correct** code with the `getters` style:
      *
-     *   var myFavoriteColor = '#112C85';
-     *   var _myFavoriteColor = '#112C85';
-     *   var myFavoriteColor_ = '#112C85';
-     *   var MY_FAVORITE_COLOR = '#112C85';
-     *   var foo = bar.baz_boom;
-     *   var foo = { qux: bar.baz_boom };
+     * ```ts
+     *  /.* eslint @typescript-eslint/class-literal-property-style: ["error", "getters"] *./
      *
-     *   obj.do_something();
-     *   do_something();
-     *   new do_something();
+     *  class Mx {
+     *      // no readonly modifier
+     *      public myField1 = 'hello';
      *
-     *   var { category_id: category } = query;
+     *      // not a literal
+     *      public readonly myField2 = [1, 2, 3];
      *
-     *   function foo({ isCamelCased }) {
-     *     // ...
-     *   }
+     *      public static get myField3() {
+     *          return 1;
+     *      }
      *
-     *   function foo({ isCamelCased: isAlsoCamelCased }) {
-     *     // ...
-     *   }
-     *
-     *   function foo({ isCamelCased = 'default value' }) {
-     *     // ...
-     *   }
-     *
-     *   var { categoryId = 1 } = query;
-     *
-     *   var { foo: isCamelCased } = bar;
-     *
-     *   var { foo: isCamelCased = 1 } = quz;
+     *      private get ['myField4']() {
+     *          return 'hello world';
+     *      }
+     *  }
      * ```
      *
-     * ### properties: "never"
+     * Examples of **incorrect** code with the `getters` style:
      *
-     * Examples of **correct** code for this rule with the `{ "properties": "never" }` option:
+     * ```ts
+     *  /.* eslint @typescript-eslint/class-literal-property-style: ["error", "getters"] *./
      *
-     * ```js
-     *   // eslint @typescript-eslint/camelcase: ["error", {properties: "never"}]
-     *
-     *   var obj = {
-     *     my_pref: 1,
-     *   };
-     * ```
-     *
-     * ### genericType: "always"
-     *
-     * Examples of **incorrect** code for this rule with the default `{ "genericType": "always" }` option:
-     *
-     * ```typescript
-     *   // eslint @typescript-eslint/camelcase: ["error", { "genericType": "always" }]
-     *
-     *   interface Foo<t_foo> {}
-     *   function foo<t_foo>() {}
-     *   class Foo<t_foo> {}
-     *   type Foo<t_foo> = {};
-     *   class Foo {
-     *     method<t_foo>() {}
-     *   }
-     *
-     *   interface Foo<t_foo extends object> {}
-     *   function foo<t_foo extends object>() {}
-     *   class Foo<t_foo extends object> {}
-     *   type Foo<t_foo extends object> = {};
-     *   class Foo {
-     *     method<t_foo extends object>() {}
-     *   }
-     *
-     *   interface Foo<t_foo = object> {}
-     *   function foo<t_foo = object>() {}
-     *   class Foo<t_foo = object> {}
-     *   type Foo<t_foo = object> = {};
-     *   class Foo {
-     *     method<t_foo = object>() {}
-     *   }
-     * ```
-     *
-     * Examples of **correct** code for this rule with the default `{ "genericType": "always" }` option:
-     *
-     * ```typescript
-     *   // eslint @typescript-eslint/camelcase: ["error", { "genericType": "always" }]
-     *
-     *   interface Foo<T> {}
-     *   function foo<t>() {}
-     *   class Foo<T> {}
-     *   type Foo<T> = {};
-     *   class Foo {
-     *     method<T>() {}
-     *   }
-     *
-     *   interface Foo<T extends object> {}
-     *   function foo<T extends object>() {}
-     *   class Foo<T extends object> {}
-     *   type Foo<T extends object> = {};
-     *   class Foo {
-     *     method<T extends object>() {}
-     *   }
-     *
-     *   interface Foo<T = object> {}
-     *   function foo<T = object>() {}
-     *   class Foo<T = object> {}
-     *   type Foo<T = object> = {};
-     *   class Foo {
-     *     method<T = object>() {}
-     *   }
-     * ```
-     *
-     * ### genericType: "never"
-     *
-     * Examples of **correct** code for this rule with the `{ "genericType": "never" }` option:
-     *
-     * ```typescript
-     *   // eslint @typescript-eslint/camelcase: ["error", { "genericType": "never" }]
-     *
-     *   interface Foo<t_foo> {}
-     *   function foo<t_foo>() {}
-     *   class Foo<t_foo> {}
-     *   type Foo<t_foo> = {};
-     *   class Foo {
-     *     method<t_foo>() {}
-     *   }
-     *
-     *   interface Foo<t_foo extends object> {}
-     *   function foo<t_foo extends object>() {}
-     *   class Foo<t_foo extends object> {}
-     *   type Foo<t_foo extends object> = {};
-     *   class Foo {
-     *     method<t_foo extends object>() {}
-     *   }
-     *
-     *   interface Foo<t_foo = object> {}
-     *   function foo<t_foo = object>() {}
-     *   class Foo<t_foo = object> {}
-     *   type Foo<t_foo = object> = {};
-     *   class Foo {
-     *     method<t_foo = object>() {}
-     *   }
-     * ```
-     *
-     * ### ignoreDestructuring: false
-     *
-     * Examples of **incorrect** code for this rule with the default `{ "ignoreDestructuring": false }` option:
-     *
-     * ```js
-     *   // eslint @typescript-eslint/camelcase: "error"
-     *
-     *   var { category_id } = query;
-     *
-     *   var { category_id = 1 } = query;
-     *
-     *   var { category_id: category_id } = query;
-     *
-     *   var { category_id: category_alias } = query;
-     *
-     *   var { category_id: categoryId, ...other_props } = query;
-     * ```
-     *
-     * ### ignoreDestructuring: true
-     *
-     * Examples of **incorrect** code for this rule with the `{ "ignoreDestructuring": true }` option:
-     *
-     * ```js
-     *   // eslint @typescript-eslint/camelcase: ["error", {ignoreDestructuring: true}]
-     *
-     *   var { category_id: category_alias } = query;
-     *
-     *   var { category_id, ...other_props } = query;
-     * ```
-     *
-     * Examples of **correct** code for this rule with the `{ "ignoreDestructuring": true }` option:
-     *
-     * ```js
-     *   // eslint @typescript-eslint/camelcase: ["error", {ignoreDestructuring: true}]
-     *
-     *   var { category_id } = query;
-     *
-     *   var { category_id = 1 } = query;
-     *
-     *   var { category_id: category_id } = query;
-     * ```
-     *
-     * ### allow
-     *
-     * Examples of **correct** code for this rule with the `allow` option:
-     *
-     * ```js
-     *   // eslint @typescript-eslint/camelcase: ["error", {allow: ["UNSAFE_componentWillMount"]}]
-     *
-     *   function UNSAFE_componentWillMount() {
-     *     // ...
-     *   }
-     * ```
-     *
-     * ```js
-     *   // eslint @typescript-eslint/camelcase: ["error", {allow: ["^UNSAFE_"]}]
-     *
-     *   function UNSAFE_componentWillMount() {
-     *     // ...
-     *   }
-     *
-     *   function UNSAFE_componentWillMount() {
-     *     // ...
-     *   }
+     *  class Mx {
+     *      readonly myField1 = 1;
+     *      readonly myField2 = `hello world`;
+     *      private readonly myField3 = 'hello world';
+     *  }
      * ```
      *
      * ___
      * ## When Not To Use It
      *
-     * If you have established coding standards using a different naming convention (separating words with underscores), turn this rule off.
+     * When you have no strong preference, or do not wish to enforce a particular style
+     * for how literal values are exposed by your classes.
      */
-    '@typescript-eslint/camelcase': RuleEntry<CamelcaseOptions>;
-
-    /**
-     * # Require PascalCased class and interface names (class-name-casing)
-     *
-     * This rule enforces PascalCased names for classes and interfaces.
-     *
-     * ___
-     * ## Rule Details
-     *
-     * - ✔️ Recommended
-     *
-     * This rule aims to make it easy to differentiate classes from regular variables at a glance.
-     * The `_` prefix is sometimes used to designate a private declaration, so the rule also supports a name
-     * that might be `_Example` instead of `Example`.
-     *
-     * ___
-     * ## Options
-     *
-     * This rule has an object option:
-     *
-     * - `"allowUnderscorePrefix": false`: (default) does not allow the name to have an underscore prefix
-     * - `"allowUnderscorePrefix": true`: allows the name to optionally have an underscore prefix
-     *
-     * ___
-     * ## Examples
-     *
-     * Examples of **incorrect** code for this rule:
-     *
-     * ```ts
-     *   class invalidClassName {}
-     *
-     *   class Another_Invalid_Class_Name {}
-     *
-     *   var bar = class invalidName {};
-     *
-     *   interface someInterface {}
-     *
-     *   class _InternalClass {}
-     * ```
-     *
-     * Examples of **correct** code for this rule:
-     *
-     * ```ts
-     *   class ValidClassName {}
-     *
-     *   export default class {}
-     *
-     *   var foo = class {};
-     *
-     *   interface SomeInterface {}
-     *
-     *   // eslint @typescript-eslint/class-name-casing: { "allowUnderscorePrefix": true }
-     *   class _InternalClass {}
-     * ```
-     *
-     * ___
-     * ## When Not To Use It
-     *
-     * You should turn off this rule if you do not care about class name casing, or if
-     * you use a different type of casing.
-     *
-     * ___
-     * ## Further Reading
-     *
-     * - [`class-name`](https://palantir.github.io/tslint/rules/class-name/) in [TSLint](https://palantir.github.io/tslint/)
-     */
-    '@typescript-eslint/class-name-casing': RuleEntry<ClassNameCasingOptions>;
+    '@typescript-eslint/class-literal-property-style': RuleEntry<ClassLiteralPropertyStyleOptions>;
 
     /**
      * # Enforces consistent usage of type assertions. (consistent-type-assertions)
@@ -880,13 +732,18 @@ export interface TypescriptRules extends RulesRecord {
     '@typescript-eslint/consistent-type-definitions': RuleEntry<ConsistentTypeDefinitionsOptions>;
 
     /**
+     * Enforces consistent usage of type imports.
+     *
+     * - *Fixable*
+     */
+    '@typescript-eslint/consistent-type-imports': RuleEntry<ConsistentTypeImportsOptions>;
+
+    /**
      * Require explicit return types on functions and class methods.
      *
      * - *Recommended*
      */
-    '@typescript-eslint/explicit-function-return-type': RuleEntry<
-        ExplicitFunctionReturnTypeOptions
-    >;
+    '@typescript-eslint/explicit-function-return-type': RuleEntry<ExplicitFunctionReturnTypeOptions>;
 
     /**
      * Require explicit accessibility modifiers on class properties and methods.
@@ -894,11 +751,11 @@ export interface TypescriptRules extends RulesRecord {
     '@typescript-eslint/explicit-member-accessibility': RuleEntry;
 
     /**
-     * Require or disallow spacing between function identifiers and their invocations.
+     * Require explicit return and argument types on exported functions' and classes' public class methods.
      *
-     * - *Fixable*
+     * - *Recommended*
      */
-    '@typescript-eslint/func-call-spacing': RuleEntry;
+    '@typescript-eslint/explicit-module-boundary-types': RuleEntry;
 
     /**
      * Enforces naming of generic type variables.

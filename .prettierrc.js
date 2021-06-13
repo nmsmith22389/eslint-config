@@ -23,9 +23,6 @@ module.exports = {
     // @var null|es5|all trailingComma
     trailingComma: 'es5',
 
-    // @var none|php5|php7.2|all trailingCommaPHP
-    trailingCommaPHP: 'php5',
-
     // @var bool bracketSpacing
     bracketSpacing: true,
 

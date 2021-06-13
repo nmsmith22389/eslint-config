@@ -1,5 +1,6 @@
+import type { Linter } from 'eslint';
 // eslint-disable-next-line import/no-relative-parent-imports
-import type { Linter, ESLintRules as Rules } from '../types/eslint';
+import type { ESLintRules as Rules } from '../types/eslint';
 
 const config: Linter.Config<Rules> = {
     // root: true,
@@ -11,7 +12,7 @@ const config: Linter.Config<Rules> = {
         // ecmaVersion: 2018, // Allows for the parsing of modern ECMAScript features
         sourceType: 'module',
     },
-    extends: ['eslint:recommended', 'plugin:prettier/recommended', 'prettier'],
+    extends: ['eslint:recommended', 'plugin:prettier/recommended'],
     plugins: [
         'prettier',
         // 'vue'
@@ -21,6 +22,7 @@ const config: Linter.Config<Rules> = {
         'spaced-comment': 'off',
         //? This is causing errors with optional chaining.
         'no-unused-expressions': 'off',
+        'no-void': ['error', { allowAsStatement: true }],
     },
     overrides: [
         {
