@@ -1,7 +1,7 @@
 {
     "name": "@smith-web-design/eslint-config",
     "description": "The eslint standard for Smith Web Design.",
-    "version": "2.0.8",
+    "version": "2.0.9",
     "keywords": [
         "Smith Web Design",
         "eslint",
@@ -41,25 +41,25 @@
         "skip": {}
     },
     "dependencies": {
-        "@types/estree": "^0.0.48",
-        "@typescript-eslint/eslint-plugin": "^4.26.1",
-        "@typescript-eslint/parser": "^4.26.1",
-        "eslint-config-prettier": "^8.3.0",
-        "eslint-plugin-import": "^2.23.4",
-        "eslint-plugin-prettier": "^3.4.0",
-        "json-schema": "^0.3.0",
-        "prettier": "^2.3.1"
+        "@types/estree": "^1.0.0",
+        "@typescript-eslint/eslint-plugin": "^5.49.0",
+        "@typescript-eslint/parser": "^5.49.0",
+        "eslint-config-prettier": "^8.6.0",
+        "eslint-plugin-import": "^2.27.5",
+        "eslint-plugin-prettier": "^4.2.1",
+        "json-schema": "^0.4.0",
+        "prettier": "^2.8.3"
     },
     "devDependencies": {
-        "@types/node": "^15.12.2",
-        "acorn": "^8.4.0",
+        "@types/node": "^18.11.18",
+        "acorn": "^8.8.2",
         "cross-env": "^7.0.3",
-        "eslint": "^7.28.0",
-        "standard-version": "^9.3.0",
-        "ts-node": "^10.0.0",
-        "typescript": "^4.3.2"
+        "eslint": "^8.32.0",
+        "standard-version": "^9.5.0",
+        "ts-node": "^10.9.1",
+        "typescript": "^4.9.4"
     },
     "peerDependencies": {
-        "eslint": "^7.1.0"
+        "eslint": "^8.32.0"
     }
 }
