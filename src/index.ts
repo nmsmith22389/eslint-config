@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-relative-parent-imports
-import type {Linter, ESLintRules as Rules } from '../types/eslint';
+import type { Linter, ESLintRules as Rules } from '../types/eslint';
 
 const config: Linter.Config<Rules> = {
     // root: true,
